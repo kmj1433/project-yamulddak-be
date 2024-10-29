@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
-const userRoutes = require('./routes/userRoutes');
+const userRoutes = require('./routes/userRoute');
+const copurchaseRoutes = require('./routes/copurchaseRoute');
 
 const app = express();
 app.use(cors());
@@ -8,6 +9,7 @@ app.use(express.json());
 
 // 라우트 설정
 app.use('/api', userRoutes);
+app.use('/api', copurchaseRoutes);
 
 // 서버 시작
 const PORT = process.env.PORT || 3000;

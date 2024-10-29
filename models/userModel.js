@@ -1,23 +1,16 @@
-const userModel = require('../models/userModel');
+const db = require('../config/db');
 
 // 모든 사용자 가져오기
-exports.getAllUsers = (req, res) => {
-  userModel.getAllUsers((err, results) => {
-    if (err) {
-      res.status(500).json({ error: '서버 오류' });
-    } else {
-      res.json(results);
-    }
-  });
+exports.getAllUsers = (callback) => {
+    db.query('SELECT * FROM user', callback);
 };
 
 // 사용자 추가
-exports.addUser = (req, res) => {
-  userModel.addUser(req.body, (err, result) => {
-    if (err) {
-      res.status(500).json({ error: '사용자 추가 실패' });
-    } else {
-      res.status(201).json({ message: '사용자 추가 성공', insertId: result.insertId });
-    }
-  });
+exports.addUser = (userData, callback) => {
+    const { name, nickname, address, address_postcode, email } = userData;
+    db.query(
+        'INSERT INTO user (name, nickname, address, address_postcode, email) VALUES (?, ?, ?, ?, ?)',
+        [name, nickname, address, address_postcode, email],
+        callback
+    );
 };
